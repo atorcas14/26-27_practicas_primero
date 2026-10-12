@@ -15,7 +15,9 @@ $barraUbi = [
         "LINK" => ""
     ]
 ];
+// Constante con la cantidad de veces que se van a lanzar los dados
 const N = 1000;
+
 //dibuja la plantilla de la vista
 inicioCabecera("EJERCICIO 2");
 cabecera();
@@ -25,6 +27,7 @@ cuerpo(); //llamo a la vista
 finCuerpo();
 // **********************************************************
 
+// Funcion que lanza 6 veces los dados
 function lanzar6veces(){
     $tiradas = array();
     for($i=0;$i<6;$i++){
@@ -33,6 +36,7 @@ function lanzar6veces(){
     return $tiradas;
 }
 
+// Funcion que lanza los dados tantas veces como se quiera
 function contarCaras($lanzamientos){
     //array con las frecuencias de las caras
     $frecuenciaCaras = [
@@ -55,6 +59,7 @@ return $frecuenciaCaras;
     
 }
 
+// Funcion para mostrar los resultados de los dados
 function vistaDados($tiradas, $conteo, $lanzamientos)
 {
     foreach ($tiradas as $indice => $valor) {
@@ -87,11 +92,11 @@ function cuerpo()
 // El controlador obtiene los arrays
 $tiradas = lanzar6Veces();
 $conteo  = contarCaras(N);
- 
+
 // Se muestra la página y se pasan los arrays a la vista como parámetros
 inicioCabecera("PRACTICA");
 finCabecera();
- 
+
 vistaDados($tiradas, $conteo, N);
 
 

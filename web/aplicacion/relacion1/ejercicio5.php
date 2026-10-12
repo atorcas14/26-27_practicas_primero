@@ -16,7 +16,7 @@ $barraUbi = [
     ]
 ];
 
-
+//Funcion que permite crear un vector 
 function crearVector()
 {
     $vector = array();
@@ -53,6 +53,7 @@ function cuerpo()
 <h2>MOSTRAR MATRIZ Y MOSTRAR TIPOS DE VALOR</h2> <br>
 <?php
 
+//Funcion que permite comprobar que tipo de valor es (boolean, integer, etc.)
 function describirValor($valor)
 {
     switch (gettype($valor)) {
@@ -71,6 +72,7 @@ function describirValor($valor)
     }
 }
 
+//Funcion que permite recorrer el vector
 function vistaVector($vector)
 {
     foreach ($vector as $posicion => $contenido) {
@@ -90,8 +92,10 @@ function vistaVector($vector)
     }
 }
 
+//Llamada a la creacion del vector
 $vector = crearVector();
 
+//Llamada a la vista del vector
 vistaVector($vector);
 
 }

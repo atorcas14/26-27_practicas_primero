@@ -15,8 +15,10 @@ $barraUbi = [
         "LINK" => ""
     ]
 ];
+//Constante con la cantidad de filas para los arrays
 const FILAS =5;
 
+//Funcion que genera el array sin una cantidad definida de filas
 function generarArrayFijo()
 {
     $datos = array();
@@ -29,6 +31,7 @@ function generarArrayFijo()
     return $datos;
 }
 
+//Funcion que genera el array con una cantidad definida de filas
 function generarArrayFilas($filas)
 {
     $datos = array();
@@ -65,6 +68,7 @@ function cuerpo()
 <h2>MOSTRAR MATRIZ</h2> <br>
 <?php
 
+// Funcion que muestra el array con una cantidad de filas
 function vistaArray($datos)
 {
     $anterior = null;
@@ -79,9 +83,11 @@ function vistaArray($datos)
     echo "Total de elementos: " . count($datos) . "<br />\n";
 }
 
+// Llamadas a las funciones para crear los arrays
 $arrayFijo  = generarArrayFijo();
 $arrayFilas = generarArrayFilas(FILAS);
 
+// Mostrar los arrays
 vistaArray($arrayFijo);
 echo "<br />\n";
 vistaArray($arrayFilas);

@@ -15,6 +15,7 @@ $barraUbi = [
         "LINK" => ""
     ]
 ];
+// Creacion de los arrays, uno sin datos y otro con los datos desde array()
 $miArray =[];
 $miArray2 = array(
     1 => "hola",
@@ -71,6 +72,7 @@ foreach($miArray as $elem){
     echo "Elementos del array: ".$elem."<br>";
 }
 
+// Aqui lo recorremos con el segundo array
 foreach($miArray2 as $clave=> $elem){
     if (is_array($elem)) {
             echo "Elemento del segundo array [" . $clave . "]: " . implode(", ", $elem) . "<br>";

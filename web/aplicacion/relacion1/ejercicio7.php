@@ -80,6 +80,8 @@ echo "dia " . date("d", $restada) . ", mes " . meses[(int)date("n", $restada)] .
     ", año " . date("Y", $restada) . ", dia de la semana " . dias[(int)date("w", $restada)] . "<br />\n";
 echo date("H:i:s", $restada) . "<br />\n";
 
+
+// Fechas (DateTime) con las que se trabaja
 $dtActual   = new DateTime();
 $dtConcreta = DateTime::createFromFormat("j/n/Y H:i", "29/3/2024 12:45");
 $dtRestada  = new DateTime();

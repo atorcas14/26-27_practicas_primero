@@ -16,7 +16,7 @@ $barraUbi = [
     ]
 ];
 
-
+//Funcion que crea el vector con los valores 
 function crearVector()
 {
     return array("primera" => 12.56, 24 => true, 67 => 23.76);
@@ -47,6 +47,7 @@ function cuerpo()
 <h2>MOSTRAR ARRAY CON DIFERENTES TIPOS DE FOREACH</h2> <br>
 <?php
 
+//Funcion que comprueba si el texto es un boolean
 function textoValor($valor)
 {
     if(is_bool($valor)){
@@ -84,8 +85,10 @@ function vistaConKeysValues($vector)
     }
 }
 
+//Llamada a la funcion para crear el vector
 $vector = crearVector();
 
+//Llamada a las funciones
 vistaConRecorrido($vector);
 vistaConKeysValues($vector);
 
