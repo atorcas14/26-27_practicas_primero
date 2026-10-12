@@ -48,7 +48,7 @@ function finCabecera()
 <?php   
 }
 
-function inicioCuerpo($cabecera)
+function inicioCuerpo(string $cabecera, array $barraUbi=[])
 {
     global $acceso;
 
@@ -65,9 +65,37 @@ function inicioCuerpo($cabecera)
             </div>
             <div id="barraMenu">
                 <ul>
+                    
+                    
+                    // if (isset($GLOBALS['ubicacion'])) {
+                    //     mostrarBarraUbicacion($GLOBALS['ubicacion']);
+                    // }
                     <li><a href="/index.php">Inicio</a></li>
-                 </ul> 
+                    <li><a href="/aplicacion/pruebas/index.php">Ejemplos Basicos</a></li>
+                    ?>
+                </ul> 
                 
+            </div>
+
+            <div id="barraUbicacion"><?php
+                    if ($barraUbi)
+                        {
+                            foreach ($barraUbi as $elemento) 
+                                {
+                                    if (isset($elemento["TEXTO"]) && isset($elemento["LINK"]))
+                                    {
+                                        if ($elemento["LINK"])
+                                              echo " <a href=\"{$elemento["LINK"]}\" >";
+                                        
+                                        echo $elemento["TEXTO"];
+
+                                        if ($elemento["LINK"])
+                                              echo " </a>";
+                                        echo " >> ";
+                                    }
+                                }
+                        }
+                ?>
             </div>
             
             <div>
@@ -91,3 +119,26 @@ function finCuerpo()
 </html>
 <?php
 }
+/**
+ * Funcion que nos permite mostrar la barra de ubicacion 
+ *
+ * @param array $ubicacion
+ * @return void
+ */
+ function mostrarBarraUbicacion(array $ubicacion)
+    {
+        echo "<nav class='barraModdle'>";
+        $total = count($ubicacion);
+        $contador = 0;
+
+        foreach ($ubicacion as $nombre => $url) {
+            $contador++;
+            if ($contador < $total) {
+                echo "<a href='{$url}'>{$nombre}</a> &raquo; ";
+            } else {
+                echo "<span>{$nombre}</span>";
+            }
+        }
+
+        echo "</nav><br>";
+    }

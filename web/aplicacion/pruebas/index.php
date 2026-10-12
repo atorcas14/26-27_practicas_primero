@@ -19,6 +19,7 @@ function cuerpo()
     <br><br>
     Elemento de pruebas
     <br><br>
-    <a href="basicas.php">Funcionamiento basico</a>
+    <a href="basicas.php">Funcionamiento basico</a> <br> <br>
+    <a href="../relacion1/index.php">Relacion 1</a>
 <?php
 }
