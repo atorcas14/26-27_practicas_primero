@@ -114,3 +114,4 @@ echo "dia " . $dtRestada->format("d") . ", mes " . meses[(int)$dtRestada->format
 echo $dtRestada->format("H:i:s") . "<br />\n";
 
 }
+
