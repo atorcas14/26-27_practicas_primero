@@ -11,7 +11,7 @@ $barraUbi = [
         "LINK" => "/aplicacion/relacion1/index.php"
     ],
     [
-        "TEXTO" => "Ejercicio6",
+        "TEXTO" => "Ejercicio7",
         "LINK" => ""
     ]
 ];
@@ -24,10 +24,10 @@ const dias  = array("domingo", "lunes", "martes", "miércoles", "jueves", "viern
 
 
 //dibuja la plantilla de la vista
-inicioCabecera("EJERCICIO 6");
+inicioCabecera("EJERCICIO 7");
 cabecera();
 finCabecera();
-inicioCuerpo("Ejercicio 6", $barraUbi);
+inicioCuerpo("Ejercicio 7", $barraUbi);
 cuerpo(); //llamo a la vista
 finCuerpo();
 // **********************************************************
