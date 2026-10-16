@@ -21,12 +21,9 @@ function cuerpo()
     <br><br>
     <a href="basicas.php">Funcionamiento basico</a> <br> <br>
     <a href="../relacion1/index.php">Relacion 1</a><br><br>
-<<<<<<< HEAD
     <a href="cadenas.php">Cadenas</a><br><br>
     <a href="../relacion2/index.php">Relacion 2</a><br><br>
     <a href="expresiones_regulares.php">Expresiones regulares</a> <br><br>
-=======
     <a href="cadenas.php">Cadenas</a>
->>>>>>> main
 <?php
 }
