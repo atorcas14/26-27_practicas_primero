@@ -83,10 +83,28 @@ foreach($partes as $parte){
     echo $parte . "\n";
 }
 
+<<<<<<< HEAD
 //BUscar la palabra "niña" y cambiarla por "mujer"
 echo "<br>Buscar la palabra 'niña' y cambiarla por 'mujer': ";
 
 
 
+=======
+//Buscar la palabra "niña" y cambiarla por "mujer"
+echo "<br>Buscar la palabra 'niña' y cambiarla por 'mujer': ";
+
+$palabra_buscar = "niña";
+$posicion_ninia = mb_strpos($cadena,$palabra_buscar);
+
+if($posicion_ninia!=false){
+    $posicion_espacio = $posicion_ninia + mb_strlen($palabra_buscar);
+    $antes = mb_substr($cadena, 0, $posicion_espacio);
+    $despues = mb_substr($cadena, $posicion_espacio + 1);
+    $nueva_cadena = $antes ."/mujer " . $despues;
+    echo "Cadena modificada: \n".$nueva_cadena . "\n";
+}
+else
+    echo "No se encontro la palabra 'niña' en la cadena";
+>>>>>>> 27c1729be77dc179e70f03533017404cc550d661
 
 }
