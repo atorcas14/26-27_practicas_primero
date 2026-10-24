@@ -1,4 +1,4 @@
-<?php
+ <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 //controlador
 //dibuja la plantilla de la vista
@@ -24,11 +24,7 @@ function cuerpo()
     <a href="cadenas.php">Cadenas</a><br><br>
     <a href="../relacion2/index.php">Relacion 2</a><br><br>
     <a href="expresiones_regulares.php">Expresiones regulares</a> <br><br>
-<<<<<<< HEAD
     <a href="index_funciones.php">Funciones</a> <br><br>
     <a href="../relacion3/index.php">Relacion 3</a> <br><br>
-=======
-    <a href="cadenas.php">Cadenas</a>
->>>>>>> 27c1729be77dc179e70f03533017404cc550d661
 <?php
 }
