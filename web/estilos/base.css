@@ -96,3 +96,19 @@ body {
 .barraUbicacion{
     background-color: #14e737;
 }
+
+header{
+    display: flex;
+}
+
+.titulo{
+    display: block;
+    margin-left: 20%;
+}
+
+img{
+    display: block;
+    width: 75px;
+    height: 75px;
+    margin: 10% 20% 0% 10%;
+}

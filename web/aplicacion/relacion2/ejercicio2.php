@@ -83,6 +83,13 @@ foreach($partes as $parte){
     echo $parte . "\n";
 }
 
+<<<<<<< HEAD
+//BUscar la palabra "niña" y cambiarla por "mujer"
+echo "<br>Buscar la palabra 'niña' y cambiarla por 'mujer': ";
+
+
+
+=======
 //Buscar la palabra "niña" y cambiarla por "mujer"
 echo "<br>Buscar la palabra 'niña' y cambiarla por 'mujer': ";
 
@@ -98,5 +105,6 @@ if($posicion_ninia!=false){
 }
 else
     echo "No se encontro la palabra 'niña' en la cadena";
+>>>>>>> 27c1729be77dc179e70f03533017404cc550d661
 
 }
