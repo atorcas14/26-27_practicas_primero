@@ -26,5 +26,7 @@ function cuerpo()
     <a href="expresiones_regulares.php">Expresiones regulares</a> <br><br>
     <a href="index_funciones.php">Funciones</a> <br><br>
     <a href="../relacion3/index.php">Relacion 3</a> <br><br>
+    <a href="../relacion4/index.php">Relacion 4</a> <br><br>
+    <a href="./clases.php">Clases</a> <br><br>
 <?php
 }

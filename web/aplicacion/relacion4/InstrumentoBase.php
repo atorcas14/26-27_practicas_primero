@@ -1,7 +1,8 @@
+<?php
 Class InstrumentoBase{
-    string $descripcion;
-    int edad = 10;
-    static $creacion;
+    public string $descripcion;
+    public int $edad = 10;
+    protected static $creacion=0;
 
     
 }
