@@ -112,3 +112,18 @@ img{
     height: 75px;
     margin: 10% 20% 0% 10%;
 }
+
+.mi-boton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #199319;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  margin: 1.5%;
+}
+
+.mi-boton:hover {
+  background-color: #223094;
+}

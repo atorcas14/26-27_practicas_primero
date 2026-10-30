@@ -8,7 +8,7 @@ $barraUbi = [
         "LINK" => "/index.php"
     ],
     [
-        "TEXTO" => "Inicio",
+        "TEXTO" => "Relacion1",
         "LINK" => ""
     ]
 ];

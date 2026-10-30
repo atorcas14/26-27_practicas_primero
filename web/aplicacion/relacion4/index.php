@@ -1,5 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
+include_once(dirname(__FILE__)."/scripts/clases/InstrumentoBase.php");
 //controlador
 
 $barraUbi = [
@@ -8,10 +9,12 @@ $barraUbi = [
         "LINK" => "/index.php"
     ],
     [
-        "TEXTO" => "Inicio",
+        "TEXTO" => "Relacion4",
         "LINK" => ""
     ]
 ];
+
+
 //dibuja la plantilla de la vista
 inicioCabecera("APLICACION RELACION 4");
 cabecera();
@@ -26,14 +29,12 @@ function cabecera() {}
 //vista
 function cuerpo()
 {
+    
+
 ?>
-    <br><br>
-    <ul>
-        <li><a href="ejercicio1.php">Ejercicio1</a></li>
-        <li><a href="ejercicio2.php">Ejercicio2</a></li>
-        <li><a href="ejercicio3.php">Ejercicio3</a></li>
-        <li><a href="ejercicio4.php">Ejercicio4</a></li>
-        <li><a href="ejercicio5.php">Ejercicio5</a></li>
-    </ul>
+    <h2>Clase instrumento base</h2>
+    <?php 
+    ?>
+
 <?php
 }
