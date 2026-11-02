@@ -57,6 +57,7 @@ function inicioCuerpo(string $cabecera, array $barraUbi=[])
         <div id="documento">
         
             <header>
+                <a href="../../index.php"><img src="../../imagenes/logophp.svg"></a>
                 <h1 id="titulo"><?php echo $cabecera;?></h1>
             </header>
             
@@ -74,6 +75,10 @@ function inicioCuerpo(string $cabecera, array $barraUbi=[])
                     <li><a href="/aplicacion/pruebas/index.php">Ejemplos Basicos</a></li>
                     
                 </ul> 
+                <a href="../relacion1/index.php" class="mi-boton">Relacion 1</a>
+                <a href="../relacion2/index.php" class="mi-boton">Relacion 2</a>
+                <a href="../relacion3/index.php" class="mi-boton">Relacion 3</a>
+                <a href="../relacion4/index.php" class="mi-boton">Relacion 4</a>
                 
             </div>
 
