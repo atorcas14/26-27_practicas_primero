@@ -8,7 +8,7 @@ abstract Class InstrumentoBase{
     protected static int $creacion=0;
 
     //Propiedad de creacion
-    private int $orden;
+    protected int $orden;
 
     //Constructor
     public function __construct(string $descripcion="", int $edad=10){

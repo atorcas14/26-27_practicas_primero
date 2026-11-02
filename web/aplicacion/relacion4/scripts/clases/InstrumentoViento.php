@@ -9,7 +9,6 @@ Class InstrumentoViento extends InstrumentoBase{
      * @param string $material
      * @param integer $edad
      */
-    #[Override]
     public function __construct(string $material = "madera", int $edad = 15)
     {
         return parent::__construct("instrumento de viento", $edad);
@@ -28,7 +27,7 @@ Class InstrumentoViento extends InstrumentoBase{
     }
 
     #[Override]
-    final public function sonido(): string
+    public function sonido(): string
     {
         return "sonido suave";
     }
