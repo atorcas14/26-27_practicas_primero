@@ -79,7 +79,7 @@ function inicioCuerpo(string $cabecera, array $barraUbi=[])
                 <a href="../relacion2/index.php" class="mi-boton">Relacion 2</a>
                 <a href="../relacion3/index.php" class="mi-boton">Relacion 3</a>
                 <a href="../relacion4/index.php" class="mi-boton">Relacion 4</a>
-                
+                <a href="../relacion5/index.php" class="mi-boton">Relacion 5</a>
             </div>
 
             <div id="barraUbicacion"><?php
