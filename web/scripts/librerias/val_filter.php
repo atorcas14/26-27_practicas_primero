@@ -42,3 +42,31 @@ function validaReal (float &$var, float $min, float $max, float $defecto):bool{
     $var=$defecto;
     return true;
 }
+
+/**
+ * Funcion que valida una fecha
+ *
+ * @param string $var
+ * @param string $defecto
+ * @return boolean
+ */
+function validaFecha(string &$var, string $defecto):bool{
+    $fecha = trim($var);
+    $formato = filter_var($fecha,FILTER_VALIDATE_REGEXP, [
+        "options" => ["regexp" => '#^\d{1,2}/\d{1,2}/\d{4}$#']
+    ]);
+
+    if(!$formato){
+        [$dia,$mes,$anio] = explode("/",$formato);
+        if(checkdate((int)$mes, (int)$dia, (int)$anio)){
+            $var = sprintf("%02d/%02d/%04d", $dia, $mes, $anio);
+            return true;
+        }
+    }
+    $var=$defecto;
+    return false;
+}
+
+function validaHora (){
+    
+}
