@@ -62,16 +62,93 @@ function validaFecha(string &$var,string $defecto):bool{
     return false;
 }
 
-function validaReal (float &$var, float $min, float $max, float $defecto):bool{
+/**
+ * Funcion que valida una hora
+ *
+ * @param string $var
+ * @param string $defecto
+ * @return boolean
+ */
+function validaHora(string &$var, string $defecto): bool{
+    
+    $hora = trim($var);
 
-    $limpiar = filter_var($var,FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-    $resultado = filter_var($limpiar,FILTER_VALIDATE_FLOAT);
-
-    if($resultado||$resultado<$min||$resultado>$max){
-        return false;
-        $var=$defecto;
+    if (preg_match('/^(\d{1,2}):(\d{1,2}):(\d{1,2})$/', $hora, $m)
+        && (int)$m[1] <= 23 && (int)$m[2] <= 59 && (int)$m[3] <= 59) {
+        $var = sprintf("%02d:%02d:%02d", $m[1], $m[2], $m[3]);   
+        return true;
     }
+    $var = $defecto;
+    return false;
+}
 
-    $var=$defecto;
-    return true;
+/**
+ * Funcion que valida un email
+ *
+ * @param string $var
+ * @param string $defecto
+ * @return boolean
+ */
+function validaEmail(string &$var, string $defecto): bool{
+    // Sanear: quitar todo lo que no pueda ir en un email
+    $email = preg_replace('/[^a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~@\[\]-]/', '', $var);
+
+    // Formato aaaaa@bbbb.ccc
+    if (preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/', $email)) {
+        $var = $email;
+        return true;
+    }
+    $var = $defecto;
+    return false;
+}
+
+/**
+ * Funcion que valida una cadena
+ *
+ * @param string $var
+ * @param integer $longitud
+ * @param string $defecto
+ * @return boolean
+ */
+function validaCadena(string &$var, int $longitud, string $defecto): bool{
+    if (mb_strlen($var) <= $longitud) {
+        return true;
+    }
+    $var = $defecto;
+    return false;
+}
+
+/**
+ * Funcion que valida una expresion 
+ *
+ * @param string $var
+ * @param string $expresion
+ * @param string $defecto
+ * @return boolean
+ */
+function validaExpresion(string &$var, string $expresion, string $defecto): bool{
+    // @ evita el aviso si la expresión regular está mal escrita (devuelve false)
+    if (@preg_match($expresion, $var) === 1) {
+        return true;
+    }
+    $var = $defecto;
+    return false;
+}
+
+/**
+ * Funcion que valida un rango de valores en un array
+ *
+ * @param mixed $var
+ * @param array $posibles
+ * @param integer $tipo
+ * @return boolean
+ */
+function validaRango(mixed $var, array $posibles, int $tipo = 1): bool{
+    if ($tipo === 1) {
+        return in_array($var, $posibles, true);          
+    }
+    if ($tipo === 2) {
+        return (is_int($var) || is_string($var)) && array_key_exists($var, $posibles);   // claves
+    }
+    return false;
 }
