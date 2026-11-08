@@ -1,14 +1,14 @@
 @charset "UTF8";
 
 body {
-    background-color: cyan;
+    background-color: #8080ff;
     font-size: 16px;
 }
 
 #documento{
     margin: 0 auto;
-    background-color: #8080ff;
-    width: 700px;
+    background-color: cyan;
+    width: 1000px;
 }
 #cabecera{
     background-color: #14e737;
@@ -41,12 +41,12 @@ body {
 }
 
 .boton a:hover{
-    background-color:cyan;
+    background-color:#ff9800;
     color: black;
 }
 
 .boton:hover{
-    background-color:cyan;
+    background-color:#ff9800;
     color: black;
 }
 
