@@ -126,7 +126,7 @@ function mostrarFormularioPunto(array $datos, array $errores)
 function cuerpo($datos,$errores, $guardado,$puntos)
 {
 
-echo "<h2>Nuevo punto</h2>";
+    echo "<h2>Nuevo punto</h2>";
     if ($guardado) {
         echo "<p style='color:green'>Punto guardado correctamente.</p>";
     }
@@ -138,5 +138,7 @@ echo "<h2>Nuevo punto</h2>";
         echo "(" . $p->getX() . ", " . $p->getY() . ") " . pEsc($c["nombre"])
             . ", grosor " . pEsc(Punto::GROSORES[$p->getGrosor()]) . "<br>";
     }
+
+    echo "<textarea name='' id='' rows = ''></textarea>"; 
     
 }
