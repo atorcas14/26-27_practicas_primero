@@ -30,7 +30,7 @@ if (isset($_POST["guardar"])) {
 
     // Coordenadas entre 0 y 500
     $x = $datos["x"];
-    if (!validaEntero($x, 0, 500, -1)) {
+    if (!\VALNORMAL\validaEntero($x, 0, 500, -1)) {
         $errores["x"][] = "x debe ser un entero entre 0 y 500";
     } else {
         $datos["x"] = $x;
@@ -139,4 +139,5 @@ echo "<h2>Nuevo punto</h2>";
             . ", grosor " . pEsc(Punto::GROSORES[$p->getGrosor()]) . "<br>";
     }
     
+    echo  "<textarea name='' id='' cols=30 rows=15></textarea>";
 }
