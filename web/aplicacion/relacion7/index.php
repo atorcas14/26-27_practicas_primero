@@ -2,6 +2,7 @@
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once(dirname(__FILE__) . "../../../scripts/clases/Punto.php");
 include_once(dirname(__FILE__) . "../../../scripts/clases/puntos.php");
+include_once(dirname(__FILE__) . "../../../scripts/clases/ImagenPuntos.php");
 
 //controlador
 $barraUbi = [
@@ -22,6 +23,8 @@ $datos = ["x" => "", "y" => "", "color" => "", "grosor" => ""];
 $errores = [];
 $guardado = false;
 $puntos = &damePuntos();
+$imagenOk = ImagenPuntos::asegurar($puntos);
+$srcImagen = ImagenPuntos::rutaWeb()."?v=".time();
 if (isset($_POST["guardar"])) {
     $datos["x"] = pPost("x");
     $datos["y"] = pPost("y");
@@ -37,7 +40,7 @@ if (isset($_POST["guardar"])) {
     }
 
     $y = $datos["y"];
-    if (!validaEntero($y, 0, 500, -1)) {
+    if (!\VALNORMAL\validaEntero($y, 0, 500, -1)) {
         $errores["y"][] = "y debe ser un entero entre 0 y 500";
     } else {
         $datos["y"] = $y;
@@ -46,14 +49,14 @@ if (isset($_POST["guardar"])) {
     // Color indicado y válido
     if ($datos["color"] === "") {
         $errores["color"][] = "Debe seleccionarse un color";
-    } elseif (!validaRango($datos["color"], Punto::COLORES, 2)) {
+    } elseif (!\VALNORMAL\validaRango($datos["color"], Punto::COLORES, 2)) {
         $errores["color"][] = "El color no es válido";
     }
 
     // Grosor seleccionado y válido
     if ($datos["grosor"] === "") {
         $errores["grosor"][] = "Debe seleccionarse un grosor";
-    } elseif (!validaRango($datos["grosor"], Punto::GROSORES, 2)) {
+    } elseif (!\VALNORMAL\validaRango($datos["grosor"], Punto::GROSORES, 2)) {
         $errores["grosor"][] = "El grosor no es válido";
     }
 
@@ -70,7 +73,7 @@ inicioCabecera("APLICACION RELACION 7");
 cabecera();
 finCabecera();
 inicioCuerpo("Inicio Relación 7", $barraUbi);
-cuerpo($datos,$errores, $guardado, $puntos); //llamo a la vista
+cuerpo($datos,$errores, $guardado, $puntos, $imagenOk, $srcImagen); //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -123,21 +126,30 @@ function mostrarFormularioPunto(array $datos, array $errores)
 }
 
 //vista
-function cuerpo($datos,$errores, $guardado,$puntos)
+function cuerpo($datos,$errores, $guardado, $puntos, $imagenOk, $srcImagen)
 {
 
-    echo "<h2>Nuevo punto</h2>";
+     echo "<h2>Nuevo punto</h2>";
     if ($guardado) {
         echo "<p style='color:green'>Punto guardado correctamente.</p>";
     }
     mostrarFormularioPunto($datos, $errores);
 
-    echo "<h3>Puntos guardados en esta petición: " . count($puntos) . "</h3>";
-    foreach ($puntos as $i => $p) {
-        $c = Punto::COLORES[$p->getColor()];
-        echo "(" . $p->getX() . ", " . $p->getY() . ") " . pEsc($c["nombre"])
-            . ", grosor " . pEsc(Punto::GROSORES[$p->getGrosor()]) . "<br>";
+    // Textarea: una línea por punto
+    $lineas = [];
+    foreach ($puntos as $p) {
+        $lineas[] = "x=" . $p->getX() . ", y=" . $p->getY()
+            . ", color=" . Punto::COLORES[$p->getColor()]["nombre"]
+            . ", grosor=" . Punto::GROSORES[$p->getGrosor()];
     }
-    
-    echo  "<textarea name='' id='' cols=30 rows=15></textarea>";
+    echo "<h3>Puntos almacenados (" . count($puntos) . ")</h3>";
+    echo "<textarea rows='8' cols='60' readonly>" . pEsc(implode("\n", $lineas)) . "</textarea>";
+
+    // Imagen
+    echo "<h3>Imagen</h3>";
+    if ($imagenOk) {
+        echo "<img src='" . pEsc($srcImagen) . "' alt='Puntos' width='500' height='500'>";
+    } else {
+        echo "<p style='color:#b00020'>No se pudo generar la imagen (comprueba la extensión GD y los permisos de /imagenes/puntos/).</p>";
+    }
 }

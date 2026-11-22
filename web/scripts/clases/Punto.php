@@ -45,7 +45,7 @@ final class Punto
     public function setX(mixed $x): bool
     {
         $v = $x;
-        if (!validaEntero($v, 0, 20000, 0)) return false;
+        if (!\VALNORMAL\validaEntero($v, 0, 20000, 0)) return false;
         $this->x = $v;
         return true;
     }
@@ -53,14 +53,14 @@ final class Punto
     public function setY(mixed $y): bool
     {
         $v = $y;
-        if (!validaEntero($v, 0, 20000, 0)) return false;
+        if (!\VALNORMAL\validaEntero($v, 0, 20000, 0)) return false;
         $this->y = $v;
         return true;
     }
 
     public function setColor(string $color): bool
     {
-        if (!validaRango($color, self::COLORES, 2)) return false;   // clave de COLORES
+        if (!\VALNORMAL\validaRango($color, self::COLORES, 2)) return false;   // clave de COLORES
         $this->color = $color;
         return true;
     }
@@ -68,7 +68,7 @@ final class Punto
     public function setGrosor(mixed $grosor): bool
     {
         $v = $grosor;
-        if (!validaEntero($v, 1, 3, 1)) return false;
+        if (!\VALNORMAL\validaEntero($v, 1, 3, 1)) return false;
         $this->grosor = $v;
         return true;
     }
