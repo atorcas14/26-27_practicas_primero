@@ -34,6 +34,23 @@ class ImagenPuntos
         return self::CARPETA . self::nombreFichero();
     }
 
+    //Metodo para dibujar 
+    public static function dibujar (array $puntos){
+        $img = imagecreatetruecolor(self::ANCHO,self::ALTO);
+        $blanco = imagecolorallocate($img,255,255,255);
+        $negro = imagecolorallocate($img,0,0,0);
+        imagefilledrectangle($img,0,0,self::ANCHO-1,self::ALTO-1,$blanco);
+        imagerectangle($img,0,0,self::ANCHO-1,self::ALTO-1,$negro);
+
+        foreach($puntos as $p){
+            [$r,$g,$b] = Punto::COLORES[$p->getColor()]["rgb"];
+            $color = imagecolorallocate($img,$r,$g,$b);
+            $radio = $p->getGrosor() * 3;
+            imagefilledellipse($img, $p->getX(),$p->getY(),$radio*2, $radio*2,$color);
+        }
+        return $img;
+    }
+
     // Huella de los puntos: cambia si se añade, borra o modifica alguno
     private static function huella(array $puntos): string
     {
@@ -52,9 +69,15 @@ class ImagenPuntos
         $huella = self::huella($puntos);
 
         if (is_file($ruta) && is_file($marca) && trim((string)file_get_contents($marca)) === $huella) {
-            return true;                    // sin cambios: no se recrea
+            return true;                    
         }
-        $ok = self::generar($puntos, $ruta);
+        $carpeta = dirname($ruta);
+        if(!is_dir($carpeta)&&!mkdir($carpeta,0775,true)){
+            return false;
+        }
+        $img = self::dibujar($puntos);
+        $ok = imagejpeg($img,$ruta,90);
+        // imagedestroy($img);
         if ($ok) {
             file_put_contents($marca, $huella);
         }
