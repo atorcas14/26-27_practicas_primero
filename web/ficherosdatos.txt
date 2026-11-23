@@ -1,0 +1,2 @@
+nombre,alberto,16,
+gabri,ordenador,1234,12,
