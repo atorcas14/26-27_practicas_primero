@@ -1,11 +1,10 @@
 <?php
-include_once(dirname(__FILE__) . "/../../scripts/datos/puntos.php");
+include_once(dirname(__FILE__) . "/../../scripts/clases/Punto.php");
 
-$puntos = damePuntos();
-$img = ImagenPuntos::dibujar($puntos);
+$img = Punto::dibujar(Punto::cargar());
 
 header("Content-Type: image/jpeg");
-header("Content-Disposition: attachment; filename=\"imagen_" . ImagenPuntos::nombreFichero() . ".jpg\"");
+header("Content-Disposition: attachment; filename=\"imagen_" . Punto::nombreArchivo() . ".jpg\"");
 imagejpeg($img, null, 90);
 imagedestroy($img);
 exit;

@@ -4,7 +4,7 @@ include_once(dirname(__FILE__) . "/../clases/Punto.php");
 include_once(dirname(__FILE__) . "/../clases/ImagenPuntos.php");
 
 function rutaFicheroPuntos():string{
-    return dirname(__FILE__) . "/ficheros" . ImagenPuntos::nombreFichero(). ".dat";
+    return dirname(__FILE__) . "/ficheros" . Punto::nombreArchivo(). ".dat";
 }
 
 function lineaAPunto(string $linea):?Punto{
@@ -12,7 +12,7 @@ function lineaAPunto(string $linea):?Punto{
     if(count($partes)!==4) return null;
     [$x,$y,$color,$grosor] = array_map("trim",$partes);
 
-    if(!ctype_digit($x) || ctype_digit($y) || ctype_digit($grosor)) return null;
+    if(!ctype_digit($x) || !ctype_digit($y) || !ctype_digit($grosor)) return null;
     if(!\VALNORMAL\validaEntero($x,0,500,-1) || !\VALNORMAL\validaEntero($y,0,500,-1)) return null;
     if(!\VALNORMAL\validaRango($color, Punto::COLORES,2) ||!\VALNORMAL\validaRango($grosor, Punto::GROSORES,2)) return null;
 

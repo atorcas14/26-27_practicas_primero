@@ -1,8 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
-include_once(dirname(__FILE__) . "../../../scripts/clases/Punto.php");
-include_once(dirname(__FILE__) . "../../../scripts/clases/puntos.php");
-include_once(dirname(__FILE__) . "../../../scripts/clases/ImagenPuntos.php");
+include_once(dirname(__FILE__) . "/../../scripts/clases/Punto.php");
 
 //controlador
 $barraUbi = [
@@ -19,7 +17,8 @@ $barraUbi = [
 function pEsc($t): string { return htmlspecialchars((string)$t); }
 function pPost(string $c): string { return (isset($_POST[$c]) && is_string($_POST[$c])) ? $_POST[$c] : ""; }
 
-$puntos = &damePuntos();      // ya cargados desde el fichero del cliente
+// Lo primero: cargar los puntos del fichero del cliente
+$puntos = Punto::cargar();
 $datos = ["x" => "", "y" => "", "color" => "", "grosor" => ""];
 $errores = [];
 $mensajes = [];
@@ -27,61 +26,43 @@ $mensajes = [];
 // ---------- BORRAR ----------
 if (isset($_POST["borrar"])) {
     $i = pPost("punto");
-    if (ctype_digit($i) && validaEntero($i, 0, count($puntos) - 1, -1)) {
-        unset($puntos[$i]);
+    if (ctype_digit($i) && (int)$i < count($puntos)) {
+        unset($puntos[(int)$i]);
         $puntos = array_values($puntos);
-        if (guardarPuntos($puntos)) {
-            ImagenPuntos::asegurar($puntos);
-            header("Location: " . $_SERVER["PHP_SELF"] . "?borrado=1");   // recarga index.php
+        if (Punto::guardar($puntos) && Punto::guardarImagen($puntos)) {
+            header("Location: " . $_SERVER["PHP_SELF"] . "?borrado=1");
             exit;
         }
-        $errores["borrar"][] = "No se pudo actualizar el fichero de puntos";
+        $errores["borrar"][] = "No se pudo actualizar el fichero o la imagen";
     } else {
         $errores["borrar"][] = "Debe seleccionarse un punto válido";
     }
 }
-if (isset($_GET["borrado"])) {
-    $mensajes[] = "Punto borrado correctamente";
-}
+if (isset($_GET["borrado"])) $mensajes[] = "Punto borrado correctamente";
 
 // ---------- AÑADIR ----------
 if (isset($_POST["guardar"])) {
-    $datos["x"] = pPost("x");
-    $datos["y"] = pPost("y");
-    $datos["color"] = pPost("color");
-    $datos["grosor"] = pPost("grosor");
+    foreach (["x", "y", "color", "grosor"] as $c) $datos[$c] = pPost($c);
 
-    $x = $datos["x"];
-    if (!ctype_digit($x) || !\VALNORMAL\validaEntero($x, 0, 500, -1)) {
-        $errores["x"][] = "x debe ser un entero entre 0 y 500";
-    } else {
-        $datos["x"] = $x;
+    foreach (["x", "y"] as $c) {
+        if (!ctype_digit($datos[$c]) || (int)$datos[$c] > 500) {
+            $errores[$c][] = "$c debe ser un entero entre 0 y 500";
+        }
     }
-    $y = $datos["y"];
-    if (!ctype_digit($y) || !\VALNORMAL\validaEntero($y, 0, 500, -1)) {
-        $errores["y"][] = "y debe ser un entero entre 0 y 500";
-    } else {
-        $datos["y"] = $y;
-    }
-    if ($datos["color"] === "") {
-        $errores["color"][] = "Debe seleccionarse un color";
-    } elseif (!\VALNORMAL\validaRango($datos["color"], Punto::COLORES, 2)) {
-        $errores["color"][] = "El color no es válido";
-    }
-    if ($datos["grosor"] === "") {
-        $errores["grosor"][] = "Debe seleccionarse un grosor";
-    } elseif (!\VALNORMAL\validaRango($datos["grosor"], Punto::GROSORES, 2)) {
-        $errores["grosor"][] = "El grosor no es válido";
-    }
+    if ($datos["color"] === "") $errores["color"][] = "Debe seleccionarse un color";
+    elseif (!\VALNORMAL\validaRango($datos["color"], Punto::COLORES, 2)) $errores["color"][] = "El color no es válido";
 
-    if (!isset($errores["x"]) && !isset($errores["y"]) && !isset($errores["color"]) && !isset($errores["grosor"])) {
+    if ($datos["grosor"] === "") $errores["grosor"][] = "Debe seleccionarse un grosor";
+    elseif (!\VALNORMAL\validaRango($datos["grosor"], Punto::GROSORES, 2)) $errores["grosor"][] = "El grosor no es válido";
+
+    if (!$errores) {
         $puntos[] = new Punto((int)$datos["x"], (int)$datos["y"], $datos["color"], (int)$datos["grosor"]);
-        if (guardarPuntos($puntos)) {
+        if (Punto::guardar($puntos) && Punto::guardarImagen($puntos)) {
             $mensajes[] = "Punto guardado correctamente";
             $datos = ["x" => "", "y" => "", "color" => "", "grosor" => ""];
         } else {
             array_pop($puntos);
-            $errores["guardar"][] = "No se pudo escribir el fichero de puntos";
+            $errores["guardar"][] = "No se pudo escribir el fichero o la imagen (permisos)";
         }
     }
 }
@@ -92,35 +73,29 @@ if (isset($_POST["subir"])) {
     if ($f === null || $f["error"] === UPLOAD_ERR_NO_FILE) {
         $errores["fichero"][] = "Debe seleccionarse un fichero";
     } elseif ($f["error"] !== UPLOAD_ERR_OK) {
-        $errores["fichero"][] = "Error al subir el fichero (código " . $f["error"] . ")";
+        $errores["fichero"][] = "Error al subir el fichero";
     } elseif (strtolower(pathinfo($f["name"], PATHINFO_EXTENSION)) !== "txt") {
         $errores["fichero"][] = "El fichero debe ser .txt";
-    } elseif ($f["size"] > 100000) {
-        $errores["fichero"][] = "El fichero es demasiado grande (máximo 100 KB)";
     } else {
-        $nuevos = 0;
-        $rechazados = 0;
-        foreach (file($f["tmp_name"], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $linea) {
-            $p = lineaAPunto($linea);
-            if ($p === null) {
-                $rechazados++;
-            } else {
-                $puntos[] = $p;
-                $nuevos++;
-            }
+        $nuevos = 0; $rechazados = 0;
+        foreach (file($f["tmp_name"], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $l) {
+            $p = Punto::desdeLinea($l);
+            if ($p === null) { $rechazados++; } else { $puntos[] = $p; $nuevos++; }
         }
-        if ($nuevos > 0 && !guardarPuntos($puntos)) {
-            $errores["fichero"][] = "No se pudo actualizar el fichero de puntos";
+        if ($nuevos > 0 && !(Punto::guardar($puntos) && Punto::guardarImagen($puntos))) {
+            $errores["fichero"][] = "No se pudo actualizar el fichero o la imagen";
         } else {
-            $mensajes[] = "Subida terminada: $nuevos puntos añadidos, $rechazados líneas rechazadas";
+            $mensajes[] = "Subida terminada: $nuevos añadidos, $rechazados rechazadas";
         }
     }
 }
 
-// La imagen se recrea solo si los puntos han cambiado
-$imagenOk = ImagenPuntos::asegurar($puntos);
-$srcImagen = ImagenPuntos::rutaWeb() . "?v=" . time();
-
+// La imagen se crea al conectarse un usuario (vacía) si aún no existe
+if (!is_file(Punto::rutaImagen())) {
+    Punto::guardarImagen($puntos);
+}
+$imagenOk = is_file(Punto::rutaImagen());
+$srcImagen = Punto::urlImagen() . "?v=" . time();
 
 //dibuja la plantilla de la vista
 inicioCabecera("APLICACION RELACION 7");
@@ -227,7 +202,7 @@ function cuerpo($datos, $errores, $mensajes, $puntos, $imagenOk, $srcImagen)
     // Textarea: una línea por punto
     $lineas = [];
     foreach ($puntos as $p) {
-        $lineas[] = puntoALinea($p);
+        $lineas[] = $p->aLinea();
     }
     echo "<h3>Puntos almacenados (" . count($puntos) . ")</h3>";
     echo "<textarea rows='8' cols='60' readonly>" . pEsc(implode("\n", $lineas)) . "</textarea>";
@@ -238,5 +213,5 @@ function cuerpo($datos, $errores, $mensajes, $puntos, $imagenOk, $srcImagen)
     } else {
         echo "<p style='color:#b00020'>No se pudo generar la imagen (revisa GD y permisos de /imagenes/puntos/).</p>";
     }
-    echo "<p><a href='imagen.php'>Descargar imagen</a></p>"; 
+    echo "<p><a href='../../../scripts/clases/imagen.php'>Descargar imagen</a></p>"; 
 }
